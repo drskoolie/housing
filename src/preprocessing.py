@@ -35,6 +35,8 @@ df_nhpi = preprocess_stat_canada(df_nhpi, "nhpi", 1.1, "%Y-%m")
 ## Part 2b: MLS
 df_crea.columns = df_crea.columns.str.lower()
 df_crea = df_crea[["date", "composite_hpi"]]
+df_crea.reset_index(drop=True, inplace=True)
+df_crea.set_index("date", inplace=True)
 
 ## Part 2c: CPI
 df_cpi.columns = df_cpi.columns.str.lower()
