@@ -13,9 +13,9 @@ df_cpi = pd.concat([df_cpi_1, df_cpi_2], ignore_index=True)
 del df_cpi_1, df_cpi_2
 
 
-## Part 2: Data Cleaning
-## Part 2a: Stats Canada
-def clean_stat_canada(df, coordinate, date_format):
+## Part 2: Data Preprocessing
+# --> Part 2a: Stats Canada
+def preprocess_stat_canada(df, col_name, coordinate, date_format):
     df.columns = df.columns.str.lower()
     df_coor = df[df["coordinate"] == coordinate]
     df_coor = df_coor[["ref_date", "value"]]
@@ -24,13 +24,13 @@ def clean_stat_canada(df, coordinate, date_format):
     df_coor.drop(["ref_date"], axis=1, inplace=True)
     df_coor = df_coor[["date", "value"]]
     df_coor.reset_index(drop=True, inplace=True)
+    df_coor.set_index("date", inplace=True)
     return df_coor
 
 
 df_vacancy_metro = clean_stat_canada(df_vacancy, 1, "%Y")
 df_bank_rate = clean_stat_canada(df_interest, 1.38, "%Y-%m-%d")
 df_new_hpi = clean_stat_canada(df_new_hpi, 1.1, "%Y-%m")
-
 
 ## Part 2b: MLS
 df_hpi.columns = df_hpi.columns.str.lower()
@@ -41,16 +41,16 @@ df_hpi.rename(columns={"composite_hpi": "value"}, inplace=True)
 df_cpi.columns = df_cpi.columns.str.lower()
 df_cpi = df_cpi[df_cpi["geo"] == "Canada"]
 df_cpi.rename(columns={"products and product groups": "groups"}, inplace=True)
-df_cpi["date"] = pd.to_datetime(df_cpi["ref_date"], format = "%Y-%m")
+df_cpi["date"] = pd.to_datetime(df_cpi["ref_date"], format="%Y-%m")
 df_cpi = df_cpi[["date", "groups", "coordinate", "value", "uom", "uom_id"]]
 df_cpi.reset_index(drop=True, inplace=True)
-
+df_cpi.set_index("date", inplace=True)
 
 ## Part 3: Data Exporting
-df_hpi.to_csv("data/processed/hpi.csv", encoding="utf-8", index=False)
-df_vacancy_metro.to_csv(
-    "data/processed/vacancy-metro.csv", encoding="utf-8", index=False
+df_cpi.to_json("data/processed/df_cpi.json", orient="records", lines=True)
+df_crea.to_json("data/processed/df_crea.json", orient="records", lines=True)
+df_bank_rate.to_json("data/processed/df_bank_rate.json", orient="records", lines=True)
+df_nhpi.to_json("data/processed/df_nhpi.json", orient="records", lines=True)
+df_vacancy_metro.to_json(
+    "data/processed/df_vacancy_metro.json", orient="records", lines=True
 )
-df_bank_rate.to_csv("data/processed/bank-rate.csv", encoding="utf-8", index=False)
-df_new_hpi.to_csv("data/processed/new-hpi.csv", encoding="utf-8", index=False)
-df_cpi.to_csv("data/processed/cpi.csv", encoding="utf-8", index=False)
