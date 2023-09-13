@@ -6,7 +6,7 @@ df_crea = pd.read_excel("data/raw/mls-pi/Not Seasonally Adjusted.xlsx")
 df_interest = pd.read_csv("data/raw/interest-rate/interest-rate.csv")
 df_nhpi = pd.read_csv("data/raw/new-housing-price-index/18100205.csv")
 df_residential_mortgage_credit = pd.read_csv(
-    "data/raw/residential-mortgage-credit//10100129.csv"
+    "data/raw/residential-mortgage-credit/10100129.csv"
 )
 df_vacancy = pd.read_csv("data/raw/vacancy-rates/34100127.csv")
 
