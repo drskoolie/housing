@@ -1,0 +1,74 @@
+﻿"Cube Title","Product Id","CANSIM Id",URL,"Cube Notes","Archive Status",Frequency,"Start Reference Period","End Reference Period","Total number of dimensions"
+"Canada Mortgage and Housing Corporation, vacancy rates, apartment structures of six units and over, privately initiated in census metropolitan areas","34100127","027-0011","https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3410012701",1;2;3,"CURRENT - a cube available to the public and that is current","Annual","1971-01-01","2022-01-01","1",
+
+"Dimension ID","Dimension name","Dimension Notes","Dimension Definitions"
+"1","Geography",,""
+
+"Dimension ID","Member Name","Classification Code","Member ID","Parent Member ID",Terminated,"Member Notes","Member Definitions"
+"1","Calgary, Alberta","[825]","2","1","",,
+"1","Saguenay, Quebec","[408]","3","1","",,
+"1","Edmonton, Alberta","[835]","4","1","",,
+"1","Halifax, Nova Scotia","[205]","5","1","",,
+"1","Hamilton, Ontario","[537]","6","1","",,
+"1","Kitchener-Cambridge-Waterloo, Ontario","[541]","7","1","",,
+"1","London, Ontario","[555]","8","1","",,
+"1","Montréal, Quebec","[462]","9","1","",,
+"1","Oshawa, Ontario","[532]","10","1","",,
+"1","Ottawa-Gatineau, Ontario/Quebec","[505]","11","1","",,
+"1","Québec, Quebec","[421]","14","1","",,
+"1","Regina, Saskatchewan","[705]","15","1","",,
+"1","St. Catharines-Niagara, Ontario","[539]","16","1","",,
+"1","Saint John, New Brunswick","[310]","17","1","",,
+"1","St. John's, Newfoundland and Labrador","[001]","18","1","",,
+"1","Saskatoon, Saskatchewan","[725]","19","1","",,
+"1","Sherbrooke, Quebec","[433]","20","1","",,
+"1","Greater Sudbury, Ontario","[580]","21","1","",,
+"1","Thunder Bay, Ontario","[595]","22","1","",,
+"1","Toronto, Ontario","[535]","23","1","",,
+"1","Trois-Rivières, Quebec","[442]","24","1","",,
+"1","Vancouver, British Columbia","[933]","25","1","",,
+"1","Victoria, British Columbia","[935]","26","1","",,
+"1","Windsor, Ontario","[559]","27","1","",,
+"1","Winnipeg, Manitoba","[602]","28","1","",,
+"1","Montréal excluding Saint-Jérôme, Quebec","","29","1","t",,
+"1","Abbotsford-Mission, British Columbia","[932]","30","1","",,
+"1","Kingston, Ontario","[521]","31","1","",,
+"1","Barrie, Ontario","[568]","32","1","",,
+"1","Brantford, Ontario","[543]","33","1","",,
+"1","Guelph, Ontario","[550]","34","1","",,
+"1","Kelowna, British Columbia","[915]","35","1","",,
+"1","Moncton, New Brunswick","[305]","36","1","",,
+"1","Peterborough, Ontario","[529]","37","1","",,
+"1","Ottawa-Gatineau, Ontario part, Ontario/Quebec","[35505]","12","11","",,
+"1","Ottawa-Gatineau, Quebec part, Ontario/Quebec","[24505]","13","11","",,
+"1","Census metropolitan areas","","1","","",,
+
+Symbol Legend
+Description,Symbol
+"not available for a specific reference period","..",
+"less than the limit of detection","<LOD",
+"value rounded to 0 (zero) where there is a meaningful distinction between true zero and the value that was rounded","0s",
+"data quality: excellent","A",
+"data quality: very good","B",
+"data quality: good","C",
+"data quality: acceptable","D",
+"use with caution","E",
+"too unreliable to be published","F",
+"not applicable","...",
+"preliminary","p",
+"revised","r",
+"suppressed to meet the confidentiality requirements of the Statistics Act","x",
+"terminated","t",
+
+"Survey Code","Survey Name"
+"7505","Canada Mortgage and Housing Corporation"
+
+"Subject Code","Subject Name"
+"34","Construction"
+
+"Note ID",Note
+1,"Geographical areas modified every 5 years to reflect most recent census definitions, therefore, data are not strictly comparable historically."
+2,"These data are obtained from Canada Mortgage and Housing Corporation (CMHC) and are provided subject to <a href="https://www.cmhc-schl.gc.ca/en/data-and-research/cmhc-licence-agreement-use-of-data" rel="external noopener noreferrer" target="_blank"> CMHC Licence Agreement for the Use of Data (opens new window)</a>."
+3,"For additional information and definitions, refer to <a href=" https://www03.cmhc-schl.gc.ca/hmip-pimh/en/TableMapChart/ScsMasMethodology" rel="external noopener noreferrer" target="_blank"> CMHC Starts and Completions Survey Methodology and Definitions (opens new window)</a>."
+
+"Correction ID","Correction Date","Correction Note"
