@@ -13,9 +13,9 @@ df_bank_rate = pd.read_pickle("data/processed/df_bank_rate.pkl")
 df_nhpi = pd.read_pickle("data/processed/df_nhpi.pkl")
 df_vacancy_metro = pd.read_pickle("data/processed/df_vacancy_metro.pkl")
 
-## Part 2: Exploratory Data Analysis
 
-# --> Part 2a: Plot Simple
+## Part 2: Exploratory Data Analysis
+# --> Part 2a: Bank-Rate and Vacancy-Rate
 def time_plot(df, title, ylabel, location):
     plt.figure(figsize=(12, 6))
     sns.lineplot(data=df, x="date", y="value", linewidth=2.5, color="crimson")
@@ -46,7 +46,36 @@ time_plot(
     "plots/bank-rates.png",
 )
 
-## Part 3b: Plot Multiple
+
+plt.figure(figsize=(12, 6))
+sns.lineplot(
+    data=df_bank_rate,
+    x="date",
+    y="value",
+    label="bank rate",
+    linewidth=2.5,
+    color="crimson",
+)
+sns.lineplot(
+    data=df_vacancy_metro,
+    x="date",
+    y="value",
+    label="vacancy rate",
+    linewidth=2.5,
+    color="blue",
+)
+
+plt.title("Bank Rate vs Vacancy Rate", fontsize=16, fontweight="bold", loc="left")
+plt.xlabel("Date", fontsize=14, labelpad=15)
+plt.ylabel("Rate (%)", fontsize=14, labelpad=15)
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+sns.despine(left=True, bottom=True)
+plt.tight_layout()
+plt.savefig("plots/bank_vacancy_rates.png")
+plt.show()
+
+# --> Part 3b: Plot Multiple
 df_cpi_shelter = df_cpi[df_cpi["groups"] == "Shelter"][["date", "value"]].reset_index(
     drop=True
 )
