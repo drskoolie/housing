@@ -47,10 +47,8 @@ df_cpi.reset_index(drop=True, inplace=True)
 df_cpi.set_index("date", inplace=True)
 
 ## Part 3: Data Exporting
-df_cpi.to_json("data/processed/df_cpi.json", orient="records", lines=True)
-df_crea.to_json("data/processed/df_crea.json", orient="records", lines=True)
-df_bank_rate.to_json("data/processed/df_bank_rate.json", orient="records", lines=True)
-df_nhpi.to_json("data/processed/df_nhpi.json", orient="records", lines=True)
-df_vacancy_metro.to_json(
-    "data/processed/df_vacancy_metro.json", orient="records", lines=True
-)
+df_cpi.to_pickle("data/processed/df_cpi.pkl")
+df_crea.to_pickle("data/processed/df_crea.pkl")
+df_bank_rate.to_pickle("data/processed/df_bank_rate.pkl")
+df_nhpi.to_pickle("data/processed/df_nhpi.pkl")
+df_vacancy_metro.to_pickle("data/processed/df_vacancy_metro.pickle")

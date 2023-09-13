@@ -6,22 +6,16 @@ import matplotlib.pyplot as plt
 pd.options.mode.chained_assignment = None  # default='warn'
 sns.set_style("whitegrid")
 
-## Part 2b: Data Exporting
-df_vacancy_metro = pd.read_csv("data/processed/vacancy-metro.csv", index_col=False)
-df_bank_rate = pd.read_csv("data/processed/bank-rate.csv", index_col=False)
-df_hpi = pd.read_csv("data/processed/hpi.csv", index_col=False)
-df_new_hpi = pd.read_csv("data/processed/new-hpi.csv", index_col=False)
-df_cpi = pd.read_csv("data/processed/cpi.csv", index_col=False)
+## Part 1: Data Loading
+df_cpi = pd.read_pickle("data/processed/df_cpi.pkl")
+df_crea = pd.read_pickle("data/processed/df_crea.pkl")
+df_bank_rate = pd.read_pickle("data/processed/df_bank_rate.pkl")
+df_nhpi = pd.read_pickle("data/processed/df_nhpi.pkl")
+df_vacancy_metro = pd.read_pickle("data/processed/df_vacancy_metro.pickle")
 
-df_vacancy_metro["date"] = pd.to_datetime(df_vacancy_metro["date"], format="%Y-%m-%d")
-df_bank_rate["date"] = pd.to_datetime(df_bank_rate["date"], format="%Y-%m-%d")
-df_hpi["date"] = pd.to_datetime(df_hpi["date"], format="%Y-%m-%d")
-df_new_hpi["date"] = pd.to_datetime(df_new_hpi["date"], format="%Y-%m-%d")
-df_cpi["date"] = pd.to_datetime(df_cpi["date"], format="%Y-%m-%d")
+## Part 2: Exploratory Data Analysis
 
-
-## Part 3: Exploratory Data Analysis
-## Part 3a: Plot Simple
+# --> Part 2a: Plot Simple
 def time_plot(df, title, ylabel, location):
     plt.figure(figsize=(12, 6))
     sns.lineplot(data=df, x="date", y="value", linewidth=2.5, color="crimson")
