@@ -9,9 +9,7 @@ df_vacancy_metro = pd.read_pickle("data/processed/df_vacancy_metro.pkl")
 
 ## Part 1: Combining into one df
 # --> Part 2a: Resampling
-df_vacancy_metro_monthly = df_vacancy_metro.resample('M').first()
-df_vacancy_metro_monthly = df_vacancy_metro_monthly.interpolate(method='linear')
-df_vacancy_metro_monthly
+df_vacancy_metro_monthly = df_vacancy_metro.resample('MS').first().interpolate(method='linear')
 
 df = pd.merge_asof(df_crea, df_bank_rate, on='date', direction='nearest')
 df = pd.merge_asof(df, df_vacancy_metro_monthly, on='date', direction='nearest', suffixes=('_bank_rate', '_vacancy'))

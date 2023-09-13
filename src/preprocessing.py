@@ -3,9 +3,12 @@ import pandas as pd
 
 ## Part 1: Loading Data
 df_crea = pd.read_excel("data/raw/mls-pi/Not Seasonally Adjusted.xlsx")
-df_vacancy = pd.read_csv("data/raw/vacancy-rates/34100127.csv")
 df_interest = pd.read_csv("data/raw/interest-rate/interest-rate.csv")
 df_nhpi = pd.read_csv("data/raw/new-housing-price-index/18100205.csv")
+df_residential_mortgage_rate = pd.read_csv(
+    "data/raw/residential-mortgage-rates/10100129.csv"
+)
+df_vacancy = pd.read_csv("data/raw/vacancy-rates/34100127.csv")
 
 df_cpi_1 = pd.read_csv("data/raw/cpi/cpi1.csv")
 df_cpi_2 = pd.read_csv("data/raw/cpi/cpi2.csv")
@@ -29,9 +32,12 @@ def preprocess_stat_canada(df, col_name, coordinate, date_format):
     return df_coor
 
 
-df_vacancy_metro = preprocess_stat_canada(df_vacancy, "vacancy_rate", 1, "%Y")
 df_bank_rate = preprocess_stat_canada(df_interest, "bank_rate", 1.38, "%Y-%m-%d")
 df_nhpi = preprocess_stat_canada(df_nhpi, "nhpi", 1.1, "%Y-%m")
+df_residential_mortgage_rate = preprocess_stat_canada(
+    df_residential_mortgage_rate, "residential-mortgage-rates", "1.1.1.1", "%Y-%m",
+)
+df_vacancy_metro = preprocess_stat_canada(df_vacancy, "vacancy_rate", 1, "%Y")
 
 ## Part 2b: MLS
 df_crea.columns = df_crea.columns.str.lower()
@@ -49,8 +55,9 @@ df_cpi.reset_index(drop=True, inplace=True)
 df_cpi.set_index("date", inplace=True)
 
 ## Part 3: Data Exporting
+df_bank_rate.to_pickle("data/processed/df_bank_rate.pkl")
 df_cpi.to_pickle("data/processed/df_cpi.pkl")
 df_crea.to_pickle("data/processed/df_crea.pkl")
-df_bank_rate.to_pickle("data/processed/df_bank_rate.pkl")
 df_nhpi.to_pickle("data/processed/df_nhpi.pkl")
+df_residential_mortgage_rate.to_pickle("data/processed/df_residential_mortgage_rate.pkl")
 df_vacancy_metro.to_pickle("data/processed/df_vacancy_metro.pkl")
