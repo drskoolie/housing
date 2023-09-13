@@ -2,6 +2,7 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tsa.stattools import grangercausalitytests
 import statsmodels.api as sm
@@ -9,35 +10,12 @@ import statsmodels.api as sm
 pd.options.mode.chained_assignment = None  # default='warn'
 sns.set_style("whitegrid")
 
-## Part 1: Data Importing
-df_vacancy_metro = pd.read_csv("data/processed/vacancy-metro.csv", index_col=False)
-df_bank_rate = pd.read_csv("data/processed/bank-rate.csv", index_col=False)
-df_hpi = pd.read_csv("data/processed/hpi.csv", index_col=False)
-df_new_hpi = pd.read_csv("data/processed/new-hpi.csv", index_col=False)
-df_cpi = pd.read_csv("data/processed/cpi.csv", index_col=False)
-
-df_vacancy_metro["date"] = pd.to_datetime(df_vacancy_metro["date"], format="%Y-%m-%d")
-df_bank_rate["date"] = pd.to_datetime(df_bank_rate["date"], format="%Y-%m-%d")
-df_hpi["date"] = pd.to_datetime(df_hpi["date"], format="%Y-%m-%d")
-df_new_hpi["date"] = pd.to_datetime(df_new_hpi["date"], format="%Y-%m-%d")
-df_cpi["date"] = pd.to_datetime(df_cpi["date"], format="%Y-%m-%d")
-
-df_cpi_shelter = df_cpi[df_cpi["groups"] == "Shelter"][["date", "value"]].reset_index(
-    drop=True
-)
-
-base_date = "2005-01-01"
-base_df_hpi = df_hpi.loc[df_hpi["date"] == base_date, "value"].values[0]
-base_df_new_hpi = df_new_hpi.loc[df_new_hpi["date"] == base_date, "value"].values[0]
-base_df_cpi_shelter = df_cpi_shelter.loc[
-    df_cpi_shelter["date"] == base_date, "value"
-].values[0]
-
-# df_vacancy_metro["pct_change"] = df_vacancy_metro["value"].pct_change() * 100
-# df_bank_rate["pct_change"] = df_bank_rate["value"].pct_change() * 100
-df_hpi["pct_change"] = df_hpi["value"].pct_change() * 100
-df_new_hpi["pct_change"] = df_new_hpi["value"].pct_change() * 100
-df_cpi_shelter["pct_change"] = df_cpi_shelter["value"].pct_change() * 100
+# Part 1: Data Importing
+df_cpi = pd.read_pickle("data/processed/df_cpi.pkl")
+df_crea = pd.read_pickle("data/processed/df_crea.pkl")
+df_bank_rate = pd.read_pickle("data/processed/df_bank_rate.pkl")
+df_nhpi = pd.read_pickle("data/processed/df_nhpi.pkl")
+df_vacancy_metro = pd.read_pickle("data/processed/df_vacancy_metro.pkl")
 
 ## Part 2: Regression Analysis
 # Rename the 'value' columns in df_bank_rate and df_vacancy_metro before merging
