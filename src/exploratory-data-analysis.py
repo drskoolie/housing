@@ -36,14 +36,14 @@ time_plot(
     df_vacancy_metro,
     "Vacancy Rate Over Time in Metro Areas",
     "Vacancy Rate (%)",
-    "plots/vacancy-rates.png",
+    "plots/exploratory-data-anaylsis/vacancy-rates.png",
 )
 
 time_plot(
     df_bank_rate,
     "Bank Rate Over Time",
     "Bank Rate (%)",
-    "plots/bank-rates.png",
+    "plots/exploratory-data-anaylsis/bank-rates.png",
 )
 
 
@@ -72,5 +72,5 @@ plt.xticks(fontsize=12)
 plt.yticks(fontsize=12)
 sns.despine(left=True, bottom=True)
 plt.tight_layout()
-plt.savefig("plots/bank_vacancy_rates.png")
+plt.savefig("plots/exploratory-data-anaylsis/bank_vacancy_rates.png")
 plt.show()
