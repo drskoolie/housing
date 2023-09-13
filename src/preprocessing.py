@@ -23,6 +23,7 @@ def preprocess_stat_canada(df, col_name, coordinate, date_format):
     df_coor["date"] = pd.to_datetime(df_coor["ref_date"], format=date_format)
     df_coor.drop(["ref_date"], axis=1, inplace=True)
     df_coor = df_coor[["date", "value"]]
+    df_coor.rename(columns={"value": col_name}, inplace=True)
     df_coor.reset_index(drop=True, inplace=True)
     df_coor.set_index("date", inplace=True)
     return df_coor
