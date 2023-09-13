@@ -68,23 +68,14 @@ df.rename(columns={'value_bank_rate': 'bank_rate', 'value': 'vacancy_rate'}, inp
 print(df.isnull().sum())
 
 ## Part 3: Run Models
-models = []
-for shift in range(0, 20):
-    df['hpi_lagged'] = df['hpi'].shift(-shift)
-    df.dropna(inplace=True)
-    X = df[['bank_rate', 'vacancy_rate']]
-    Y = df['hpi_lagged']
-    X = sm.add_constant(X)
-    model = sm.OLS(Y, X).fit()
-    models.append(model)
-
-with open("txt/models.txt", "a") as f:
-    for shift, model in enumerate(models):
-        print("--------------------", file=f)
-        print(f"Shift = {shift}", file=f)
-        print("--------------------", file=f)
-        print(model.summary(), file=f)
-        print("\n\n\n", file=f)
+shift = 6
+df['hpi_lagged'] = df['hpi'].shift(-shift)
+df.dropna(inplace=True)
+X = df[['bank_rate', 'vacancy_rate']]
+Y = df['hpi_lagged']
+X = sm.add_constant(X)
+model = sm.OLS(Y, X).fit()
+print(model.summary())
 
 print(df[['bank_rate', 'vacancy_rate']].corr())
 
