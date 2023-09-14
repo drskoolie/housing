@@ -37,61 +37,24 @@ coordinate_to_group = {
 def plot_cpi(df_cpi, coordinate):
     df_cpi_coordinate = df_cpi[df_cpi["coordinate"] == coordinate]
     sns.lineplot(
-        data=df_cpi_coordinate, x=df_cpi_coordinate.index, y="value", label="insurance"
+        data=df_cpi_coordinate,
+        x=df_cpi_coordinate.index,
+        y="value",
+        label="insurance",
+        color="blue",
     )
     plt.title(df_cpi_coordinate["groups"].iloc[0])
-    plt.show()
 
-
-plot_cpi(df_cpi, 2.88)
 
 df_cpi_insurance = df_cpi[df_cpi["coordinate"] == 2.88]
 df_cpi_insurance.rename(columns={"value": "insurance"}, inplace=True)
 df_cpi_insurance = df_cpi_insurance[["insurance"]]
 
-## Part 3: CREA generation
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-
-# Step 1 & 2: Split the data into training and test sets and train the model
-df_merged = pd.merge(
-    df_crea, df_cpi_insurance, how="inner", left_index=True, right_index=True
+plot_cpi(df_cpi, 2.88)
+plt.fill_between(
+    df_cpi_insurance.index,
+    df_cpi_insurance["insurance"],
+    alpha=0.1,
+    color="blue",
 )
-
-df_merged = pd.merge(
-    df_merged, df_bank_rate, how="inner", left_index=True, right_index=True
-)
-
-df_merged
-X = df_merged[["insurance", "bank_rate"]]
-y = df_merged["composite_hpi"]
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
-
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-# Step 3: Test the model
-y_pred = model.predict(X_test)
-
-# Step 4: Calculate error metrics
-mse = mean_squared_error(y_test, y_pred)
-mae = mean_absolute_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-
-print(f"Mean Squared Error: {mse}")
-print(f"Mean Absolute Error: {mae}")
-print(f"R-squared: {r2}")
-
-
-# Plot residuals
-residuals = y_test - y_pred
-plt.scatter(y_test, residuals)
-plt.axhline(y=0, color='r', linestyle='--')
-plt.xlabel('Observed')
-plt.ylabel('Residuals')
-plt.title('Residuals vs. Observed')
 plt.show()
