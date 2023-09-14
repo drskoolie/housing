@@ -10,8 +10,6 @@ df_residential_mortgage_credit = pd.read_pickle(
 )
 df_vacancy_metro = pd.read_pickle("data/processed/df_vacancy_metro.pkl")
 
-df_residential_mortgage_credit
-
 ## Part 1: Combining into one df
 # --> Part 2a: Resampling
 df_vacancy_metro_monthly = (
@@ -19,18 +17,21 @@ df_vacancy_metro_monthly = (
 )
 df_bank_rate_monthly = df_bank_rate.resample("MS").mean()["bank_rate"]
 
-df = pd.merge_asof(df_crea, df_bank_rate, on="date", direction="nearest")
-df = pd.merge_asof(
-    df,
+# --> Part 2b: Merging
+dfs = [
+    df_crea,
+    df_bank_rate_monthly,
+    df_residential_mortgage_credit,
     df_vacancy_metro_monthly,
-    on="date",
-    direction="nearest",
-    suffixes=("_bank_rate", "_vacancy"),
-)
+]
 
-# Rename the columns for the merged dataframe
-df.rename(
-    columns={"value_bank_rate": "bank_rate", "value": "vacancy_rate"}, inplace=True
-)
-# Check for any missing values
-print(df.isnull().sum())
+df_merge = pd.DataFrame()
+df_merge.index = df_crea.index
+
+for df in dfs:
+    df_merge = pd.merge_asof(
+        df_merge,
+        df,
+        on="date",
+        direction="nearest",
+    )
