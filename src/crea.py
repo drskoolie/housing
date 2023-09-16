@@ -24,7 +24,7 @@ adjustments_idx = np.where(df_crea.iloc[3, :].notna())[0][1:] - 1
 df_crea = df_crea.iloc[5:, :]
 df_crea.set_index(df_crea.columns[0], inplace=True)
 df_crea.index = pd.to_datetime(df_crea.index, format="%b %Y")
-df_crea.index.name = "Time"
+df_crea.index.name = "date"
 
 measures_cols = [""] * df_crea.shape[1]
 
