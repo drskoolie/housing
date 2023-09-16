@@ -35,29 +35,37 @@ coordinate_to_group = {
 
 
 def plot_cpi(df_cpi, coordinate):
-    df_cpi_coordinate = df_cpi[df_cpi["coordinate"] == coordinate]
+    fig, ax = plt.subplots(1, 2, figsize=(18,9))
+    df_cpi_coor = df_cpi[df_cpi["coordinate"] == coordinate]
     sns.lineplot(
-        data=df_cpi_coordinate,
-        x=df_cpi_coordinate.index,
+        ax=ax[0],
+        data=df_cpi_coor,
+        x=df_cpi_coor.index,
         y="value",
         color="blue",
     )
-    plt.title(df_cpi_coordinate["groups"].iloc[0])
-
-
-df_cpi_insurance = df_cpi[df_cpi["coordinate"] == 2.88]
-df_cpi_insurance.rename(columns={"value": "insurance"}, inplace=True)
-df_cpi_insurance = df_cpi_insurance[["insurance"]]
-
-for coor in [2.81, 2.82, 2.84, 2.85, 2.86, 2.87, 2.88, 2.89]:
-    plot_cpi(df_cpi, coor)
-    plt.fill_between(
-        df_cpi[df_cpi["coordinate"] == coor].index,
-        df_cpi[df_cpi["coordinate"] == coor]["value"],
+    ax[0].set_title(df_cpi_coor["groups"].iloc[0])
+    ax[0].fill_between(
+        df_cpi_coor.index,
+        df_cpi_coor["value"],
         alpha=0.1,
         color="blue",
     )
+    df_cpi_coor["pct_change"] = df_cpi_coor["value"].pct_change(periods=12) * 100
+
+    sns.lineplot(
+        ax=ax[1],
+        data=df_cpi_coor,
+        x=df_cpi_coor.index,
+        y="pct_change",
+        color="blue",
+    )
+    ax[1].set_title(df_cpi_coor["groups"].iloc[0])
+
+for coor in [2.81, 2.82, 2.84, 2.85, 2.86, 2.87, 2.88, 2.89]:
+    plot_cpi(df_cpi, coor)
     plt.savefig(
         f"plots/cpi/{df_cpi['groups'][df_cpi['coordinate'] == coor].iloc[0]}.png"
     )
-    plt.show()
+    plt.close()
+
