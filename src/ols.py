@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 
 from src.crea import df_crea
 
-from statsmodels.stats.outliers_influence import variance_inflation_factor
-from statsmodels.tsa.stattools import grangercausalitytests
 import statsmodels.api as sm
 
 pd.options.mode.chained_assignment = None  # default='warn'
