@@ -23,7 +23,7 @@ df_vacancy_metro_monthly = df_vacancy_metro.resample("MS").first()
 df_vacancy_metro_monthly = df_vacancy_metro_monthly.interpolate(method="linear")
 
 df = pd.merge_asof(
-    df_crea["Dollar Volume_Canada_Unadjusted"],
+    df_crea["Average Price_Canada_Adjusted"],
     df_bank_rate,
     on="date",
     direction="nearest",
@@ -36,7 +36,7 @@ df = pd.merge_asof(
     suffixes=("_bank_rate", "_vacancy"),
 )
 
-df = df.rename(columns={"Dollar Volume_Canada_Unadjusted": "crea"})
+df = df.rename(columns={"Average Price_Canada_Adjusted": "crea"})
 df = df.set_index(["date"])
 
 ## Part 3: Run Models
@@ -51,29 +51,31 @@ model = sm.OLS(Y, X).fit()
 print(model.summary())
 
 
-"""
-                            OLS Regression Results
-==============================================================================
-Dep. Variable:            crea_lagged   R-squared:                       0.440
-Model:                            OLS   Adj. R-squared:                  0.438
-Method:                 Least Squares   F-statistic:                     201.8
-Date:                Sat, 16 Sep 2023   Prob (F-statistic):           2.03e-65
-Time:                        18:16:07   Log-Likelihood:                -12465.
-No. Observations:                 517   AIC:                         2.494e+04
-Df Residuals:                     514   BIC:                         2.495e+04
-Df Model:                           2
-Covariance Type:            nonrobust
-================================================================================
-                   coef    std err          t      P>|t|      [0.025      0.975]
---------------------------------------------------------------------------------
-const         2.008e+10   1.12e+09     17.951      0.000    1.79e+10    2.23e+10
-bank_rate    -1.429e+09   7.12e+07    -20.078      0.000   -1.57e+09   -1.29e+09
-vacancy_rate -8.701e+08   3.49e+08     -2.495      0.013   -1.56e+09   -1.85e+08
-==============================================================================
-Omnibus:                      206.425   Durbin-Watson:                   0.155
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):              780.017
-Skew:                           1.834   Prob(JB):                    4.18e-170
-Kurtosis:                       7.770   Cond. No.                         27.1
-==============================================================================
-"""
+## Part 4: Plotting
+fig, ax = plt.subplots(1, 2, figsize=(18,9))
+sns.lineplot(
+    ax=ax[0],
+    data=df_crea,
+    x=df_crea.index,
+    y="Average Price_Canada_Unadjusted",
+    color="blue",
+)
 
+ax[0].set_title(df_crea["Average Price_Canada_Unadjusted"].name)
+ax[0].fill_between(
+    df_crea.index,
+    df_crea["Average Price_Canada_Unadjusted"],
+    alpha=0.1,
+    color="blue",
+)
+df_crea["pct_change"] = df_crea["Average Price_Canada_Unadjusted"].pct_change(periods=12) * 100
+
+sns.lineplot(
+    ax=ax[1],
+    data=df_crea,
+    x=df_crea.index,
+    y="pct_change",
+    color="blue",
+)
+ax[1].set_title(df_crea["Average Price_Canada_Unadjusted"].name)
+plt.show()
