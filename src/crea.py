@@ -21,6 +21,11 @@ adjustments = df_crea.iloc[3, :][df_crea.iloc[3, :].notna()].to_list()[1:]
 adjustments_idx = np.where(df_crea.iloc[3, :].notna())[0][1:] - 1
 
 ## Part 2: Setting up Columns
+df_crea = df_crea.iloc[5:, :]
+df_crea.set_index(df_crea.columns[0], inplace=True)
+df_crea.index = pd.to_datetime(df_crea.index, format="%b %Y")
+df_crea.index.name = "Time"
+
 measures_cols = [""] * df_crea.shape[1]
 
 for i, measure in enumerate(measures):
@@ -45,3 +50,21 @@ for i, adjustment in enumerate(adjustments):
         else len(adjustments_cols)
     )
     adjustments_cols[start_idx:end_idx] = [adjustment] * (end_idx - start_idx)
+
+cols = [
+    measure + "_" + region + "_" + adjustment
+    for measure, region, adjustment in zip(
+        measures_cols, regions_cols, adjustments_cols
+    )
+]
+
+df_crea.columns = cols
+
+## Part 3: General Preprocessing
+# Drop duplicates
+df_crea = df_crea.T.drop_duplicates().T
+# Reverse the order
+df_crea = df_crea.iloc[::-1]
+# To numeric
+for col in df_crea.columns:
+    df_crea[col] = pd.to_numeric(df_crea[col], errors='coerce')
