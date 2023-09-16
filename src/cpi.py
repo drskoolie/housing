@@ -40,7 +40,6 @@ def plot_cpi(df_cpi, coordinate):
         data=df_cpi_coordinate,
         x=df_cpi_coordinate.index,
         y="value",
-        label="insurance",
         color="blue",
     )
     plt.title(df_cpi_coordinate["groups"].iloc[0])
@@ -50,11 +49,15 @@ df_cpi_insurance = df_cpi[df_cpi["coordinate"] == 2.88]
 df_cpi_insurance.rename(columns={"value": "insurance"}, inplace=True)
 df_cpi_insurance = df_cpi_insurance[["insurance"]]
 
-plot_cpi(df_cpi, 2.88)
-plt.fill_between(
-    df_cpi_insurance.index,
-    df_cpi_insurance["insurance"],
-    alpha=0.1,
-    color="blue",
-)
-plt.show()
+for coor in [2.81, 2.82, 2.84, 2.85, 2.86, 2.87, 2.88, 2.89]:
+    plot_cpi(df_cpi, coor)
+    plt.fill_between(
+        df_cpi[df_cpi["coordinate"] == coor].index,
+        df_cpi[df_cpi["coordinate"] == coor]["value"],
+        alpha=0.1,
+        color="blue",
+    )
+    plt.savefig(
+        f"plots/cpi/{df_cpi['groups'][df_cpi['coordinate'] == coor].iloc[0]}.png"
+    )
+    plt.show()

@@ -1,0 +1,2 @@
+https://fred.stlouisfed.org/series/QCAR628BIS
+https://www.bis.org/statistics/pp_detailed.htm
