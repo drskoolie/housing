@@ -29,5 +29,17 @@ for idx in range(df_crea.shape[1]):
 for i, measure in enumerate(measures):
     start_idx = measures_idx[i]
     end_idx = measures_idx[i+1] if i+1 < len(measures_idx) else len(cols)
-    import ipdb; ipdb.set_trace(context = 10) 
-    print(f"{start_idx}:{end_idx}")
+    for j in range(start_idx, end_idx):
+        cols[j] += measure
+
+for i, region in enumerate(regions):
+    start_idx = regions_idx[i]
+    end_idx = regions_idx[i+1] if i+1 < len(regions_idx) else len(cols)
+    for j in range(start_idx, end_idx):
+        cols[j] += "_" + region
+
+for i, adjustment in enumerate(adjustments):
+    start_idx = adjustments_idx[i]
+    end_idx = adjustments_idx[i+1] if i+1 < len(adjustments_idx) else len(cols)
+    for j in range(start_idx, end_idx):
+        cols[j] += "_" + adjustment
