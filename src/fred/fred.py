@@ -444,6 +444,9 @@ class Fred:
             raise ValueError('No series exists for category id: ' + str(category_id))
         return info
 
+# Redo this. 
+# Add getting category
+
 ## Part 1: Loading
 fred = Fred()
 
