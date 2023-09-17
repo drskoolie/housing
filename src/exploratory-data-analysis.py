@@ -74,3 +74,36 @@ sns.despine(left=True, bottom=True)
 plt.tight_layout()
 plt.savefig("plots/exploratory-data-anaylsis/bank_vacancy_rates.png")
 plt.show()
+
+## Part 4: Plotting
+fig, ax = plt.subplots(1, 2, figsize=(18,9))
+sns.lineplot(
+    ax=ax[0],
+    data=df,
+    x=df.index,
+    y="crea_pct_change",
+    color="blue",
+)
+
+ax[0].set_title(df["crea_pct_change"].name)
+
+sns.lineplot(
+    ax=ax[1],
+    data=df,
+    x=df.index,
+    y="crea_pct_change_moving_average",
+    color="blue",
+)
+ax[1].set_title(df["crea_pct_change_moving_average"].name)
+plt.show()
+
+## Part 5: Plotting Agin
+plt.figure()
+sns.lineplot(
+    data=df,
+    x=df.index,
+    y="real_interest",
+    color="blue",
+)
+plt.show()
+df["real_interest"]

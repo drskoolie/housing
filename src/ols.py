@@ -21,7 +21,7 @@ df_vacancy_metro_monthly = df_vacancy_metro.resample("MS").first()
 df_vacancy_metro_monthly = df_vacancy_metro_monthly.interpolate(method="linear")
 
 df = pd.merge_asof(
-    df_crea["Average Price_Canada_Adjusted"],
+    df_crea["Average Price_Canada_Unadjusted"],
     df_bank_rate,
     on="date",
     direction="nearest",
@@ -34,46 +34,22 @@ df = pd.merge_asof(
     suffixes=("_bank_rate", "_vacancy"),
 )
 
-df = df.rename(columns={"Average Price_Canada_Adjusted": "crea"})
+df = df.rename(columns={"Average Price_Canada_Unadjusted": "crea"})
 df = df.set_index(["date"])
+df["crea_pct_change"] = df["crea"].pct_change(12) * 100
+window_shift = 24
+df["crea_pct_change_moving_average"] = df["crea_pct_change"].rolling(window=window_shift).mean()
+df["real_interest"] = df["bank_rate"] - df["crea_pct_change_moving_average"]
+df.dropna(inplace=True)
 
-## Part 3: Run Models
-shift = 6
+shift = 0
 df["crea_lagged"] = df["crea"].shift(-shift)
+df["crea_pct_change_moving_average_lagged"] = df["crea_pct_change_moving_average"].shift(-window_shift)
 
 df.dropna(inplace=True)
-X = df[["bank_rate", "vacancy_rate"]]
+X = df[["real_interest", "vacancy_rate", "crea_pct_change_moving_average_lagged"]]
+X = df[["real_interest", "vacancy_rate"]]
 Y = df["crea_lagged"]
 X = sm.add_constant(X)
 model = sm.OLS(Y, X).fit()
 print(model.summary())
-
-
-## Part 4: Plotting
-fig, ax = plt.subplots(1, 2, figsize=(18,9))
-sns.lineplot(
-    ax=ax[0],
-    data=df_crea,
-    x=df_crea.index,
-    y="Average Price_Canada_Unadjusted",
-    color="blue",
-)
-
-ax[0].set_title(df_crea["Average Price_Canada_Unadjusted"].name)
-ax[0].fill_between(
-    df_crea.index,
-    df_crea["Average Price_Canada_Unadjusted"],
-    alpha=0.1,
-    color="blue",
-)
-df_crea["pct_change"] = df_crea["Average Price_Canada_Unadjusted"].pct_change(periods=12) * 100
-
-sns.lineplot(
-    ax=ax[1],
-    data=df_crea,
-    x=df_crea.index,
-    y="pct_change",
-    color="blue",
-)
-ax[1].set_title(df_crea["Average Price_Canada_Unadjusted"].name)
-plt.show()
