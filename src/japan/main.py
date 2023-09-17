@@ -2,6 +2,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+import statsmodels.api as sm
+
 
 sns.set_style()
 
@@ -33,10 +35,11 @@ df_japan = pd.merge(df_bank_rate, df_cpi, on="date")
 df_japan = pd.merge(df_japan, df_hpi, on="date")
 
 ## Part 2: Data Engineering
-df_japan["cpi_pct_change"] = df_japan["cpi"].pct_change(12) * 100
+df_japan["cpi_pct_change"] = df_japan["cpi"].shift(-6).pct_change(12) * 100
 df_japan.dropna(inplace=True)
 df_japan["real_interest"] = df_japan["bank_rate"] - df_japan["cpi_pct_change"]
 df_japan
+
 
 ## Part 4: Plotting
 fig, ax1 = plt.subplots()
