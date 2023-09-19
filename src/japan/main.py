@@ -38,7 +38,8 @@ df_japan = pd.merge(df_japan, df_hpi, on="date")
 df_japan["cpi_pct_change"] = df_japan["cpi"].shift(-6).pct_change(12) * 100
 df_japan.dropna(inplace=True)
 df_japan["real_interest"] = df_japan["bank_rate"] - df_japan["cpi_pct_change"]
-df_japan
+df_japan["real_interest_cumsum"] = df_japan["real_interest"].cumsum()
+df_japan["bank_rate_cumsum"] = df_japan["bank_rate"].cumsum()
 
 
 ## Part 4: Plotting
@@ -61,7 +62,7 @@ sns.lineplot(
         data = df_japan,
         ax = ax2,
         x = df_japan.index,
-        y = "real_interest",
+        y = "bank_rate_cumsum",
         color = "red",
 )
 
